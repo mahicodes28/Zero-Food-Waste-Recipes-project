@@ -1,96 +1,50 @@
 import React, { useState } from "react";
+import IngredientInput from "./components/IngredientInput";
+import RecipeSuggestions from "./components/RecipeSuggestions";
 
 function App() {
-  const [ingredient, setIngredient] = useState("");
+  const [ingredients, setIngredients] = useState([]);
+  const [showRecipe, setShowRecipe] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`You entered: ${ingredient}`);
-    setIngredient("");
+  const handleGenerateRecipe = () => {
+    if (ingredients.length > 0) {
+      setShowRecipe(true);
+    } else {
+      alert("Please add at least one ingredient first!");
+    }
   };
 
   return (
     <div
+      className="min-h-screen flex items-center justify-center"
       style={{
-        backgroundImage: "url('/ZeroWaste.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        minHeight: "100vh",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        fontFamily: "Arial, sans-serif",
+        background: "linear-gradient(to bottom right, #a8e6cf, #dcedc1)", // 🌱 eco gradient
       }}
     >
-      {/* Overlay */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 48, 19, 0.5)",
-          zIndex: 1,
-        }}
-      ></div>
-
-      {/* Content */}
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          textAlign: "center",
-          color: "white",
-          padding: "20px",
-          maxWidth: "500px",
-          width: "90%",
-        }}
-      >
-        <h1 style={{ fontSize: "3rem", marginBottom: "30px" }}>
-          Zero Food Waste Recipes
+      <div className="bg-white p-10 rounded-2xl shadow-lg text-center w-full max-w-2xl">
+        <h1 className="text-4xl font-bold mb-4 text-green-900 text-center">
+          Zero Waste Recipe Generator 🌱
         </h1>
-        <p>Tell us what ingredients you have in your kitchen and we’ll suggest creative recipes to use them up!</p>
+        <p className="mb-6 text-green-800 text-lg text-center">
+          Enter the ingredients you already have at home and we’ll help you turn
+          them into delicious, zero-waste recipes!
+        </p>
 
-        {/* Input form */}
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "15px" }}
+        {/* Ingredient Input Form */}
+        <div className="flex justify-center mb-4">
+          <IngredientInput setIngredients={setIngredients} />
+        </div>
+
+        {/* Generate Recipe Button */}
+        <button
+          onClick={handleGenerateRecipe}
+          className="mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow-md"
         >
-          <input
-            type="text"
-            placeholder="Enter ingredient..."
-            value={ingredient}
-            onChange={(e) => setIngredient(e.target.value)}
-            style={{
-              padding: "12px 15px",
-              borderRadius: "8px",
-              border: "none",
-              fontSize: "1rem",
-            }}
-          />
-          <button
-            type="submit"
-            style={{
-              padding: "12px 15px",
-              borderRadius: "8px",
-              border: "none",
-              backgroundColor: "#ff9900",
-              color: "white",
-              fontSize: "1rem",
-              cursor: "pointer",
-              fontWeight: "bold",
-              transition: "background-color 0.3s",
-            }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#e68a00")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "#ff9900")}
-          >
-            Search Recipes
-          </button>
-        </form>
+          Generate Recipe
+        </button>
+
+        {/* Recipe Suggestions */}
+        {showRecipe && <RecipeSuggestions ingredients={ingredients} />}
       </div>
     </div>
   );

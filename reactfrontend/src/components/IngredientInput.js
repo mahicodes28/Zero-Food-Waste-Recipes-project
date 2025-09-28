@@ -1,43 +1,50 @@
 import React, { useState } from "react";
 
-export default function IngredientInput() {
-  const [ingredient, setIngredient] = useState("");  // input box
-  const [ingredients, setIngredients] = useState([]); // list of ingredients
+function IngredientInput({ setIngredients }) {
+  const [input, setInput] = useState("");
+  const [list, setList] = useState([]);
 
-  // Add new ingredient
-  const addIngredient = () => {
-    if (ingredient.trim() === "") return;
-    setIngredients([...ingredients, ingredient]);
-    setIngredient(""); // reset input
-  };
-
-  // Remove ingredient
-  const removeIngredient = (index) => {
-    const newList = ingredients.filter((_, i) => i !== index);
-    setIngredients(newList);
+  const handleAdd = () => {
+    if (input.trim() !== "") {
+      const newList = [...list, input];
+      setList(newList);
+      setIngredients(newList);
+      setInput("");
+    }
   };
 
   return (
-    <div>
-      <h2>What ingredients do you have?</h2>
+    <div className="bg-white/90 p-4 rounded-xl shadow-lg max-w-md w-full">
+      <h2 className="text-lg font-semibold text-green-800 mb-3">
+         Type in your leftover ingredients and discover delicious zero-waste recipes instantly!!🌽🥦
+      </h2>
+      
+      <div className="flex gap-2">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="e.g., rice, tomato, onion"
+          className="flex-grow border border-green-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
+        <button
+          onClick={handleAdd}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg"
+        >
+          Add
+        </button>
+      </div>
 
-      {/* Input + Button */}
-      <input
-        type="text"
-        value={ingredient}
-        onChange={(e) => setIngredient(e.target.value)}
-        placeholder="Enter an ingredient"
-      />
-      <button onClick={addIngredient}>Add</button>
-
-      {/* List */}
-      <ul>
-        {ingredients.map((item, index) => (
-          <li key={index}>
-            {item} <button onClick={() => removeIngredient(index)}>✕</button>
+      {/* Ingredients list */}
+      <ul className="mt-4 space-y-1 text-green-900">
+        {list.map((item, index) => (
+          <li key={index} className="bg-green-100 px-2 py-1 rounded">
+            {item}
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
+export default IngredientInput;
