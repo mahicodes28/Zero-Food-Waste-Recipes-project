@@ -1,0 +1,10 @@
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+expressbackend/.env
+reactfrontend/.env
+node_modules
+expressbackend/node_modules
+
