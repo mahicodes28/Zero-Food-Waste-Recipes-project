@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import IngredientInput from "./components/IngredientInput";
 import RecipeSuggestions from "./components/RecipeSuggestions";
+=======
+import React from "react";
+import Chatbot from "./chatbot";
+>>>>>>> 6cae7063f55c414032e8349677571807196eaedc
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
@@ -15,6 +20,7 @@ function App() {
   };
 
   return (
+<<<<<<< HEAD
     <div
       className="min-h-screen flex items-center justify-center"
       style={{
@@ -46,6 +52,10 @@ function App() {
         {/* Recipe Suggestions */}
         {showRecipe && <RecipeSuggestions ingredients={ingredients} />}
       </div>
+=======
+    <div>
+      <Chatbot />
+>>>>>>> 6cae7063f55c414032e8349677571807196eaedc
     </div>
   );
 }
