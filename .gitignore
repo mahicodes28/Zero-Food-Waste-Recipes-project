@@ -1,10 +1,17 @@
+# Environment files
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Backend environment
 expressbackend/.env
+
+# Frontend environment
 reactfrontend/.env
+
+# Node modules
 node_modules
 expressbackend/node_modules
-
+reactfrontend/node_modules
