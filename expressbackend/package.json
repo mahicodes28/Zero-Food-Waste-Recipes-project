@@ -1,36 +1,21 @@
 {
-  "name": "zero-food-waste-recipes",
+  "name": "zero-food-waste-recipes-backend",
   "version": "1.0.0",
-  "description": "A project for zero food waste recipes",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
-  },
-  "devDependencies": {},
-  "keywords": [],
-  "author": "",
-<<<<<<< HEAD
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^1.12.2",
+    "axios": "^1.6.7",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "node-fetch": "^2.7.0",
-    "openai": "^6.1.0"
+    "dotenv": "^16.4.0",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.0",
+    "openai": "^4.23.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
-  }
-=======
+    "nodemon": "^3.1.0"
+  },
   "license": "ISC"
->>>>>>> d6e6c44c9710653db23420cc063b3fb8048307e6
 }
