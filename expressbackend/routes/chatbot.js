@@ -11,7 +11,7 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ✅ POST /api/chatbot
+//  POST /api/chatbot
 router.post("/", async (req, res) => {
   try {
     const { message, ingredients = [] } = req.body;
