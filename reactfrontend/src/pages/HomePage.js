@@ -1,43 +1,55 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./HomePage.css";
 
-const HomePage = () => {
-  const heroStyle = {
-    backgroundImage: "url('/food-bg.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "100vh",
-    color: "white",
-    textAlign: "center",
-    paddingTop: "100px",
-    backgroundColor: "#7B4F2A",
-    backgroundBlendMode: "multiply",
-  };
-
-  const buttonStyle = {
-    display: "inline-block",
-    margin: "20px",
-    padding: "20px 40px",
-    backgroundColor: "white",
-    color: "#7B4F2A",
-    borderRadius: "10px",
-    textDecoration: "none",
-    fontWeight: "bold",
-  };
-
+export default function HomePage() {
   return (
-    <div style={heroStyle}>
-      <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>
-        Zero Food Waste Recipes
-      </h1>
-      <p style={{ fontSize: "20px" }}>Cook meals from what you already have</p>
+    <div className="homepage-container">
 
-      <div>
-        <Link to="/find" style={buttonStyle}>Find Recipes</Link>
-        <Link to="/saved" style={buttonStyle}>Saved Recipes</Link>
-      </div>
+      {/* HERO SECTION */}
+      <header className="homepage-hero">
+        <h1 className="homepage-title">Zero Food Waste Recipes</h1>
+        <p className="homepage-subtitle">
+          Cook delicious meals using what you already have.
+        </p>
+
+        <div className="homepage-buttons">
+          <Link to="/add" className="hero-btn">Add Recipes</Link>
+          <Link to="/saved" className="hero-btn">Saved Recipes</Link>
+        </div>
+      </header>
+
+      {/* FEATURES SECTION */}
+      <section className="feature-wrapper">
+
+        <h2 className="feature-heading">"Our Key Features" </h2>
+        <p className="feature-subheading">
+          Make your cooking smart, easy, and sustainable.
+        </p>
+
+        <div className="features-section">
+          <div className="feature-card">
+            <h3>Smart Recipe Generator</h3>
+            <p>Enter leftover ingredients and get instant recipe ideas.</p>
+          </div>
+
+          <div className="feature-card">
+            <h3>Save Your Recipes</h3>
+            <p>Bookmark your favorite dishes and revisit them anytime.</p>
+          </div>
+
+          <div className="feature-card">
+            <h3>AI Chatbot Guidance</h3>
+            <p>Ask for cooking help, ingredient swaps, or nutrition tips.</p>
+          </div>
+        </div>
+
+      </section>
+
+      {/* FOOTER */}
+      <footer className="homepage-footer">
+        © 2025 Zero Food Waste Recipes
+      </footer>
     </div>
   );
-};
-
-export default HomePage;
+}

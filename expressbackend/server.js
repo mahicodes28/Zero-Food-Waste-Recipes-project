@@ -1,43 +1,38 @@
 const express = require("express");
 const cors = require("cors");
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const connectDB = require("./config/db");
 
-// Load environment variables from .env file
+// Load env variables
 dotenv.config();
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 
-// ✅ Use same port as expected by React proxy (optional)
-const PORT = process.env.PORT || 5000;
-
 // --- MIDDLEWARE ---
-app.use(cors({
-  origin: ["http://localhost:3000"], // Allow requests from your React app
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: ["http://localhost:3000"], // React frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
-// --- MONGODB CONNECTION ---
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Atlas Connected Successfully"))
-  .catch((err) => console.error("❌ MongoDB Connection Error:", err));
-
 // --- ROUTES ---
-const chatbotRoutes = require("./routes/chatbot");
-app.use("/api/chatbot", chatbotRoutes);
-
-const recipeRoutes = require("./routes/recipeRoutes");
-app.use("/api/recipes", recipeRoutes);
+app.use("/api/recipes", require("./routes/recipes"));
+app.use("/api/chatbot", require("./routes/chatbot"));
 
 // --- TEST ROUTE ---
 app.get("/", (req, res) => {
-  res.send("🚀 Backend server is running and MongoDB is connected!");
+  res.send("🚀 Zero Food Waste Backend is running!");
 });
 
 // --- START SERVER ---
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🔥 Backend server running at http://localhost:${PORT}`);
 });

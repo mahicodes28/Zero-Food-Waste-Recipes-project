@@ -1,15 +1,26 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Components
+import Header from "./components/Header";
+
+// Pages
 import HomePage from "./pages/HomePage";
-import FindRecipes from "./pages/FindRecipes";
 import SavedRecipes from "./pages/SavedRecipes";
+import AddRecipes from "./pages/AddRecipes";
+import Chatbot from "./pages/Chatbot";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   return (
     <BrowserRouter>
+      <Header />
+
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/find" element={<FindRecipes />} />
         <Route path="/saved" element={<SavedRecipes />} />
+        <Route path="/add" element={<AddRecipes />} />
+        <Route path="/chat" element={<Chatbot />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
   );
