@@ -1,0 +1,6 @@
+node_modules
+reactfrontend/node_modules
+expressbackend/node_modules
+.git
+.gitignore
+

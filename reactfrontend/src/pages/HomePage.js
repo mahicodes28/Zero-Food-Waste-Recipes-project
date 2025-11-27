@@ -29,8 +29,8 @@ export default function HomePage() {
 
         <div className="features-section">
           <div className="feature-card">
-            <h3>Smart Recipe Generator</h3>
-            <p>Enter leftover ingredients and get instant recipe ideas.</p>
+            <h3>Share Your recipe</h3>
+            <p>Add you favourite recipe to use them later.</p>
           </div>
 
           <div className="feature-card">
