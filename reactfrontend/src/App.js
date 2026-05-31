@@ -8,7 +8,9 @@ import HomePage from "./pages/HomePage";
 import SavedRecipes from "./pages/SavedRecipes";
 import AddRecipes from "./pages/AddRecipes";
 import Chatbot from "./pages/Chatbot";
-import LoginPage from "./pages/LoginPage";
+import Pantry from "./pages/Pantry";
+import AiRecipes from "./pages/AiRecipes";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -20,7 +22,9 @@ function App() {
         <Route path="/saved" element={<SavedRecipes />} />
         <Route path="/add" element={<AddRecipes />} />
         <Route path="/chat" element={<Chatbot />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/pantry" element={<Pantry />} />
+        <Route path="/ai-recipes" element={<AiRecipes />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );

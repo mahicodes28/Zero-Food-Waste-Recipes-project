@@ -1,24 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --primary: #0E291C;
+  --primary-rgb: 14, 41, 28;
+  --accent: #3A6351;
+  --accent-rgb: 58, 99, 81;
+  --highlight: #E08E2F;
+  --background: #FCFAF6;
+  --text-main: #1C2D24;
+  --text-muted: #5C6B61;
+  --card-shadow: 0 12px 40px rgba(14, 41, 28, 0.03), 0 1px 3px rgba(14, 41, 28, 0.01);
+  --border-color: #ECEAE3;
+}
+
 html, body {
   width: 100%;
   overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--text-main);
+  scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FCFAF6;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D5D2C7;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B2AFA4;
+}
+
+/* Base keyframe animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-sage {
+  0%, 100% { transform: scale(1); opacity: 0.15; }
+  50% { transform: scale(1.1); opacity: 0.35; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

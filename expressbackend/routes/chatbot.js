@@ -1,51 +1,89 @@
 const express = require("express");
 const router = express.Router();
 const dotenv = require("dotenv");
-const OpenAI = require("openai");
+const Groq = require("groq-sdk");
 
 dotenv.config();
 
-// Create OpenAI client
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// Validate API Key
+if (!process.env.GROQ_API_KEY) {
+  console.error("❌ GROQ_API_KEY not found in .env");
+}
+
+const client = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
 });
 
-//  POST /api/chatbot
+// =========================================
+// POST /api/chatbot
+// =========================================
 router.post("/", async (req, res) => {
   try {
     const { message, ingredients = [] } = req.body;
 
-    if (!message) {
-      return res.status(400).json({ error: "Message is required" });
+    if (!message || message.trim() === "") {
+      return res.status(400).json({
+        error: "Message is required",
+      });
     }
 
-    // Build prompt dynamically
-    const prompt = ingredients.length
-      ? `User has these ingredients: ${ingredients.join(", ")}.\nUser says: ${message}.`
-      : `User says: ${message}.`;
+    const prompt =
+      ingredients.length > 0
+        ? `
+User has these pantry ingredients:
+${ingredients.join(", ")}
+
+User question:
+${message}
+`
+        : `
+User question:
+${message}
+`;
 
     const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "llama-3.3-70b-versatile",
       messages: [
         {
           role: "system",
-          content:
-            "You are 'Your Chat-Cook' — a friendly chef who helps users reduce food waste with simple suggestions.",
+          content: `
+You are "Chef-Cook AI", a friendly and intelligent food waste reduction assistant.
+
+Your responsibilities:
+- Help users use ingredients before expiry.
+- Suggest recipes.
+- Provide cooking tips.
+- Suggest ingredient substitutions.
+- Encourage sustainable cooking habits.
+- Keep responses concise and practical.
+          `,
         },
         {
           role: "user",
           content: prompt,
         },
       ],
-      max_tokens: 250,
+      temperature: 0.7,
+      max_tokens: 300,
     });
 
-    const reply = completion.choices[0].message.content || "I have no response.";
+    const reply =
+      completion?.choices?.[0]?.message?.content ||
+      "Sorry, I couldn't generate a response.";
 
-    res.json({ reply });
-  } catch (err) {
-    console.error("❌ Chatbot error:", err);
-    res.status(500).json({ error: "Chatbot server error" });
+    console.log("🤖 Chatbot Reply:", reply);
+
+    return res.status(200).json({
+      reply,
+    });
+  } catch (error) {
+    console.error("❌ Chatbot Error:");
+    console.error(error);
+
+    return res.status(500).json({
+      error: "Chatbot server error",
+      details: error.message,
+    });
   }
 });
 

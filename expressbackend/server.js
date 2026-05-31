@@ -11,7 +11,7 @@ connectDB();
 
 const app = express();
 
-// Middleware
+// Middleware 
 app.use(express.json());
 
 // CORS (allow frontend from Vercel & local)
@@ -29,6 +29,9 @@ app.use(
 // API Routes
 app.use("/api/recipes", require("./routes/recipes"));
 app.use("/api/chatbot", require("./routes/chatbot"));
+app.use("/api/pantry", require("./routes/pantry"));
+app.use("/api/ai-recipes", require("./routes/aiRecipes"));
+app.use("/api/analytics", require("./routes/analytics"));
 
 // -------------------------
 // SERVE REACT FRONTEND BUILD

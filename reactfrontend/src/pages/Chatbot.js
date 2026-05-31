@@ -2,9 +2,14 @@ import React, { useState } from "react";
 
 export default function Chatbot() {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      from: "bot",
+      text: "👋 Hello! I am Your Chat-Cook. Ask me for substitution ideas, zero-waste cooking advice, or how to rescue expiring ingredients!",
+    },
+  ]);
 
-  const API_URL = "http://localhost:5000/api/chatbot";
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -13,7 +18,7 @@ export default function Chatbot() {
     setMessages((prev) => [...prev, { from: "user", text: input }]);
 
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(`${API_URL}/api/chatbot`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
@@ -27,7 +32,7 @@ export default function Chatbot() {
       console.error("Chatbot error:", error);
       setMessages((prev) => [
         ...prev,
-        { from: "bot", text: "⚠️ Error: Unable to connect to server." },
+        { from: "bot", text: "⚠️ Error: Unable to connect to Chef API." },
       ]);
     }
 
@@ -36,22 +41,46 @@ export default function Chatbot() {
 
   return (
     <div style={styles.container}>
+      <div style={styles.hero}>
+        <h1 style={styles.heading}>👨‍🍳 Chat-Cook Assistant</h1>
+        <p style={styles.subtitle}>
+          Your interactive, sustainability-focused AI chef. Get instant swaps, eco tips, and kitchen guidance.
+        </p>
+      </div>
+
       <div style={styles.card}>
-        <h2 style={styles.title}>👨‍🍳 Your Chat-Cook</h2>
-        <p style={styles.subtitle}>Your personal AI cooking assistant</p>
+        <div style={styles.cardHeader}>
+          <span style={styles.chefAvatar}>🍳</span>
+          <div>
+            <h3 style={styles.chefName}>Your Chat-Cook</h3>
+            <span style={styles.chefStatus}>🟢 Active Chef AI</span>
+          </div>
+        </div>
 
         <div style={styles.chatBox}>
           {messages.map((msg, index) => (
             <div
               key={index}
               style={{
-                ...styles.message,
-                alignSelf: msg.from === "user" ? "flex-end" : "flex-start",
-                backgroundColor: msg.from === "user" ? "#7B4F2A" : "#f5f5f5",
-                color: msg.from === "user" ? "white" : "#333",
+                ...styles.messageWrapper,
+                justifyContent: msg.from === "user" ? "flex-end" : "flex-start",
               }}
             >
-              {msg.text}
+              {msg.from === "bot" && <span style={styles.msgAvatar}>👨‍🍳</span>}
+              <div
+                style={{
+                  ...styles.message,
+                  backgroundColor: msg.from === "user" ? "#3A6351" : "#FCFAF6",
+                  color: msg.from === "user" ? "white" : "#1C2D24",
+                  border: msg.from === "user" ? "none" : "1px solid #ECEAE3",
+                  borderRadius:
+                    msg.from === "user"
+                      ? "16px 16px 4px 16px"
+                      : "16px 16px 16px 4px",
+                }}
+              >
+                {msg.text}
+              </div>
             </div>
           ))}
         </div>
@@ -59,9 +88,10 @@ export default function Chatbot() {
         <div style={styles.inputRow}>
           <input
             type="text"
-            placeholder="Ask about cooking, ingredients, tips..."
+            placeholder="e.g. Can I swap butter for olive oil? What can I make with old milk?"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
             style={styles.input}
           />
           <button onClick={handleSend} style={styles.button}>
@@ -73,84 +103,147 @@ export default function Chatbot() {
   );
 }
 
-// ------------------------------------
-//  Styles
-// ------------------------------------
 const styles = {
   container: {
     minHeight: "100vh",
-    background: "#fff5eb",
+    backgroundColor: "#FCFAF6",
+    padding: "45px 20px",
+    fontFamily: "'Plus Jakarta Sans', sans-serif",
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
     alignItems: "center",
-    padding: "40px 20px",
   },
 
-  card: {
-    width: "450px",
-    backgroundColor: "white",
-    padding: "25px",
-    borderRadius: "16px",
-    boxShadow: "0 8px 20px rgba(0,0,0,0.15)",
-  },
-
-  title: {
-    margin: 0,
-    fontSize: "28px",
-    fontWeight: "700",
+  hero: {
     textAlign: "center",
-    color: "#7B4F2A",
+    marginBottom: "35px",
+  },
+
+  heading: {
+    fontSize: "34px",
+    fontWeight: "800",
+    color: "#0E291C",
+    margin: 0,
+    letterSpacing: "-0.8px",
   },
 
   subtitle: {
-    textAlign: "center",
+    fontSize: "15px",
+    color: "#5C6B61",
     marginTop: "5px",
-    marginBottom: "20px",
-    fontSize: "14px",
-    color: "#555",
+    maxWidth: "600px",
+    margin: "5px auto 0 auto",
+  },
+
+  card: {
+    width: "100%",
+    maxWidth: "520px",
+    backgroundColor: "white",
+    borderRadius: "20px",
+    boxShadow: "0 10px 40px rgba(14, 41, 28, 0.03)",
+    border: "1px solid #ECEAE3",
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden",
+  },
+
+  cardHeader: {
+    backgroundColor: "#FCFAF6",
+    borderBottom: "1px solid #ECEAE3",
+    padding: "16px 20px",
+    display: "flex",
+    alignItems: "center",
+    gap: "12px",
+  },
+
+  chefAvatar: {
+    fontSize: "24px",
+    width: "40px",
+    height: "40px",
+    borderRadius: "50%",
+    backgroundColor: "white",
+    border: "1px solid #ECEAE3",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  chefName: {
+    color: "#0E291C",
+    fontSize: "15px",
+    fontWeight: "800",
+    margin: 0,
+  },
+
+  chefStatus: {
+    color: "#117A65",
+    fontSize: "11px",
+    fontWeight: "700",
   },
 
   chatBox: {
-    background: "#fafafa",
-    height: "350px",
-    borderRadius: "12px",
-    padding: "15px",
+    height: "360px",
+    padding: "20px",
     overflowY: "auto",
     display: "flex",
     flexDirection: "column",
-    marginBottom: "15px",
-    border: "1px solid #ddd",
+    gap: "15px",
+  },
+
+  messageWrapper: {
+    display: "flex",
+    alignItems: "flex-end",
+    gap: "8px",
+    maxWidth: "85%",
+  },
+
+  msgAvatar: {
+    fontSize: "14px",
+    width: "24px",
+    height: "24px",
+    borderRadius: "50%",
+    backgroundColor: "#F1EBD9",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexShrink: 0,
+    marginBottom: "2px",
   },
 
   message: {
-    maxWidth: "75%",
-    padding: "10px 14px",
-    borderRadius: "10px",
-    marginBottom: "10px",
+    padding: "11px 15px",
     fontSize: "14px",
-    lineHeight: "1.4",
+    lineHeight: "1.5",
+    fontWeight: "500",
   },
 
   inputRow: {
     display: "flex",
     gap: "10px",
+    padding: "16px 20px",
+    borderTop: "1px solid #ECEAE3",
+    backgroundColor: "white",
   },
 
   input: {
     flex: 1,
-    padding: "12px",
+    padding: "12px 14px",
     borderRadius: "10px",
-    border: "1px solid #ccc",
-    fontSize: "15px",
+    border: "1px solid #ECEAE3",
+    fontSize: "14px",
+    outlineColor: "#3A6351",
+    fontFamily: "inherit",
   },
 
   button: {
     padding: "12px 20px",
-    backgroundColor: "#7B4F2A",
+    backgroundColor: "#3A6351",
     color: "white",
     border: "none",
     borderRadius: "10px",
     cursor: "pointer",
-    fontWeight: "bold",
+    fontWeight: "700",
+    fontSize: "14px",
+    transition: "background-color 0.2s ease",
   },
 };
